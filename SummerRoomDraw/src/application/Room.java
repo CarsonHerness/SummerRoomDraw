@@ -4,55 +4,94 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Room {
-	Dorm dorm;
-	String roomNumber;
-	// For summer, triples and quads can be doubles and triples, respectively
-	int minCapacity;
-	int maxCapacity;
+	// ---------------- SET BY BUILDER ------------------
+	private final Dorm dorm;
+	private final String roomNumber;
+	private final int minCapacity;
+	private final int maxCapacity;
+	
+	// whether or not this room is being used for summer residents
+	private boolean summerRoom;
+	
+	private Date springResidentMoveOutDate;
+	private Date fallResidentMoveInDate;
 
-	// default to normal
-	FallRoomType fallRoomType = FallRoomType.NORMAL;
-
-	ArrayList<Person> springResidents = new ArrayList<>();
-	ArrayList<Person> firstSummerResidents = new ArrayList<>();
-	ArrayList<Person> secondSummerResidents = new ArrayList<>();
-	ArrayList<Person> fallResidents = new ArrayList<>();
-
-	// defaulted to normal values for HMC student
-	// Monday, 18 May 2020 0:00:00 GMT
-	// Epoch timestamp: 1589760000000 ms
-	Date springResidentMoveOutDate = new Date(1589760000000L);
-
-	// Sunday, 30 August 2020 0:00:00 GMT
-	// Epoch timestamp: 1598745600000 ms
-	Date fallResidentMoveInDate = new Date(1598745600000L);
-
+	// -------------- SET IN ROOM CLASS -------------------
 	// Updated whenever a summer resident is added
-	Date earliestMoveInDateFirstSummerResidents;
-	Date latestMoveOutDateFirstSummerResidents;
-	Date earliestMoveInDateSecondSummerResidents;
-	Date latestMoveOutDateSecondSummerResidents;
+	private Date earliestMoveInDateFirstSummerResidents;
+	private Date latestMoveOutDateFirstSummerResidents;
+	private Date earliestMoveInDateSecondSummerResidents;
+	private Date latestMoveOutDateSecondSummerResidents;
+	
+	private ArrayList<Person> springResidents;
+	private ArrayList<Person> firstSummerResidents;
+	private ArrayList<Person> secondSummerResidents;
+	private ArrayList<Person> fallResidents;
 
 	// default to false
-	boolean summerMathRoom = false;
+	private boolean summerMathRoom = false;
+	
+	// default to normal
+	private FallRoomType fallRoomType = FallRoomType.NORMAL;
+	
+	public static class Builder {
+		// Required parameters
+		private final Dorm dorm;
+		private final String roomNumber;
+		private final int minCapacity;
+		private final int maxCapacity;
+		
+		// Optional parameters set to default values
+		private boolean summerRoom = false;
 
-	// whether or not this room is being used for summer residents
-	boolean summerRoom;
+		// defaulted to normal values for HMC student
+		// Monday, 18 May 2020 0:00:00 GMT
+		// Epoch timestamp: 1589760000000 ms
+		private Date springResidentMoveOutDate = new Date(1589760000000L);
+
+		// Sunday, 30 August 2020 0:00:00 GMT
+		// Epoch timestamp: 1598745600000 ms
+		private Date fallResidentMoveInDate = new Date(1598745600000L);
+		
+		public Builder(Dorm dorm, String roomNumber, int minCapacity, int maxCapacity) {
+			this.dorm = dorm;
+			this.roomNumber = roomNumber;
+			this.minCapacity = minCapacity;
+			this.maxCapacity = maxCapacity;
+		}
+		
+		public Builder summerRoom(boolean summerRoom) {
+			this.summerRoom = summerRoom;
+			return this;
+		}
+		
+		public Builder springResidentMoveOutDate(Date date) {
+			this.springResidentMoveOutDate = date;
+			return this;
+		}
+		
+		public Builder fallResidentMoveInDate(Date date) {
+			this.fallResidentMoveInDate = date;
+			return this;
+		}
+	}
+	
+	private Room(Builder builder) {
+		this.dorm = builder.dorm;
+		this.roomNumber = builder.roomNumber;
+		this.minCapacity = builder.minCapacity;
+		this.maxCapacity = builder.maxCapacity;
+		this.summerRoom = builder.summerRoom;
+		this.springResidentMoveOutDate = builder.springResidentMoveOutDate;
+		this.fallResidentMoveInDate = builder.fallResidentMoveInDate;
+	}
 
 	public Dorm getDorm() {
 		return dorm;
 	}
 
-	public void setDorm(Dorm dorm) {
-		this.dorm = dorm;
-	}
-
 	public String getRoomNumber() {
 		return roomNumber;
-	}
-
-	public void setRoomNumber(String roomNumber) {
-		this.roomNumber = roomNumber;
 	}
 
 	public FallRoomType getFallRoomType() {
@@ -153,16 +192,12 @@ public class Room {
 		return minCapacity;
 	}
 
-	public void setMinCapacity(int minCapacity) {
-		this.minCapacity = minCapacity;
-	}
-
 	public int getMaxCapacity() {
 		return maxCapacity;
 	}
-
-	public void setMaxCapacity(int maxCapacity) {
-		this.maxCapacity = maxCapacity;
+	
+	public boolean getSummerRoom() {
+		return summerRoom;
 	}
 
 	public Date getSpringResidentMoveOutDate() {
