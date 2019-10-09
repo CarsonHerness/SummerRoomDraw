@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Person {
+	// ----------------- SET BY BUILDER -----------------------
 	private final String legalFirstName;
 	private String legalMiddleName;
 	private final String legalLastName;
@@ -17,29 +18,22 @@ public class Person {
 	private final boolean isHMCStudent;
 	private final boolean isClaremontStudent;
 
-	// defaulted to normal values for HMC student
-	// Monday, 18 May 2020 0:00:00 GMT
-	// Epoch timestamp: 1589760000000 ms
-	private Date springMoveOutDate = new Date(1589760000000L);
-
-	// Sunday, 30 August 2020 0:00:00 GMT
-	// Epoch timestamp: 1598745600000 ms
-	private Date fallMoveInDate = new Date(1598745600000L);
-
-	private Date activityStartDate;
-	private Date activityEndDate;
-
-	private Date firstHousingStartDate;
-	private Date firstHousingEndDate;
-
-	private Date secondHousingStartDate;
-	private Date secondHousingEndDate;
-
-	private ArrayList<Person> firstRoommates;
-	private ArrayList<Person> secondRoommates;
+	private Date springMoveOutDate;
+	private Date fallMoveInDate;
 
 	private Room springRoom;
 	private Room fallRoom;
+	private Date activityStartDate;
+	private Date activityEndDate;
+	private Date firstHousingStartDate;
+	private Date firstHousingEndDate;
+	private Date secondHousingStartDate;
+	private Date secondHousingEndDate;
+	
+	// ------------ SET BY PERSON CLASS ----------------------
+	private ArrayList<Person> firstRoommates = new ArrayList<>();
+	private ArrayList<Person> secondRoommates = new ArrayList<>();
+
 	private Room firstSummerRoom;
 	private Room secondSummerRoom;
 
@@ -61,9 +55,9 @@ public class Person {
 		private final boolean isHMCStudent;
 		private final boolean isClaremontStudent;
 
-		// Optional parameters
-		private String legalMiddleName;
-		private String email;
+		// Optional parameters set to default values
+		private String legalMiddleName = new String();
+		private String email = new String();
 
 		// defaulted to normal values for HMC student
 		// Monday, 18 May 2020 0:00:00 GMT
@@ -74,6 +68,7 @@ public class Person {
 		// Epoch timestamp: 1598745600000 ms
 		private Date fallMoveInDate = new Date(1598745600000L);
 
+		// optional parameters left null if not used
 		private Date activityStartDate;
 		private Date activityEndDate;
 
@@ -289,16 +284,8 @@ public class Person {
 		return firstRoommates;
 	}
 
-	public void setFirstRoommates(ArrayList<Person> firstRoommates) {
-		this.firstRoommates = firstRoommates;
-	}
-
 	public ArrayList<Person> getSecondRoomates() {
 		return secondRoommates;
-	}
-
-	public void setSecondRoomates(ArrayList<Person> secondRoomates) {
-		this.secondRoommates = secondRoomates;
 	}
 
 	public Room getSpringRoom() {
