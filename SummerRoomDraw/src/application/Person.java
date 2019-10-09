@@ -4,50 +4,177 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Person {
-	private String legalFirstName;
+	private final String legalFirstName;
 	private String legalMiddleName;
-	private String legalLastName;
+	private final String legalLastName;
 	private String preferredName;
 	private String email;
-	
-	// For Claremont students, this is their Claremont ID. Otherwise, we generate their ID.
-	private String id;
-	private ClassYear classYear;
-	private boolean isHMCStudent;
-	private boolean isClaremontStudent;
-	
+
+	// For Claremont students, this is their Claremont ID. Otherwise, we generate
+	// their ID.
+	private final String id;
+	private final ClassYear classYear;
+	private final boolean isHMCStudent;
+	private final boolean isClaremontStudent;
+
 	// defaulted to normal values for HMC student
 	// Monday, 18 May 2020 0:00:00 GMT
 	// Epoch timestamp: 1589760000000 ms
-	Date springMoveOutDate = new Date(1589760000000L);
-	
+	private Date springMoveOutDate = new Date(1589760000000L);
+
 	// Sunday, 30 August 2020 0:00:00 GMT
 	// Epoch timestamp: 1598745600000 ms
-	Date fallMoveInDate = new Date(1598745600000L);
-	
+	private Date fallMoveInDate = new Date(1598745600000L);
+
 	private Date activityStartDate;
 	private Date activityEndDate;
-	
+
 	private Date firstHousingStartDate;
 	private Date firstHousingEndDate;
-	
+
 	private Date secondHousingStartDate;
 	private Date secondHousingEndDate;
-	
+
 	private ArrayList<Person> firstRoommates;
 	private ArrayList<Person> secondRoommates;
-	
+
 	private Room springRoom;
 	private Room fallRoom;
 	private Room firstSummerRoom;
 	private Room secondSummerRoom;
+
+	/**
+	 * 
+	 * @author Carson Herness
+	 * 
+	 *         Builder class is used to construct all known information about the
+	 *         student, before assigning rooms or roommates for the summer. All
+	 *         roommates and room assignments will be done by the Person class.
+	 *
+	 */
+	public static class Builder {
+		// Required parameters
+		private final String legalFirstName;
+		private final String legalLastName;
+		private final String id;
+		private final ClassYear classYear;
+		private final boolean isHMCStudent;
+		private final boolean isClaremontStudent;
+
+		// Optional parameters
+		private String legalMiddleName;
+		private String email;
+
+		// defaulted to normal values for HMC student
+		// Monday, 18 May 2020 0:00:00 GMT
+		// Epoch timestamp: 1589760000000 ms
+		private Date springMoveOutDate = new Date(1589760000000L);
+
+		// Sunday, 30 August 2020 0:00:00 GMT
+		// Epoch timestamp: 1598745600000 ms
+		private Date fallMoveInDate = new Date(1598745600000L);
+
+		private Date activityStartDate;
+		private Date activityEndDate;
+
+		private Date firstHousingStartDate;
+		private Date firstHousingEndDate;
+
+		private Date secondHousingStartDate;
+		private Date secondHousingEndDate;
+
+		private Room springRoom;
+		private Room fallRoom;
+
+		public Builder(String legalFirstName, String legalLastName, String id, ClassYear classYear,
+				boolean isHMCStudent, boolean isClaremontStudent) {
+			this.legalFirstName = legalFirstName;
+			this.legalLastName = legalLastName;
+			this.id = id;
+			this.classYear = classYear;
+			this.isHMCStudent = isHMCStudent;
+			this.isClaremontStudent = isClaremontStudent;
+		}
+
+		public Builder email(String email) {
+			this.email = email;
+			return this;
+		}
+		
+		public Builder legalMiddleName(String name) {
+			this.legalMiddleName = name;
+			return this;
+		}
+
+		public Builder springMoveOutDate(Date date) {
+			this.springMoveOutDate = date;
+			return this;
+		}
+
+		public Builder fallMoveInDate(Date date) {
+			this.fallMoveInDate = date;
+			return this;
+		}
+		
+		public Builder activityStartDate(Date date) {
+			this.activityStartDate = date;
+			return this;
+		}
+		
+		public Builder activityEndDate(Date date) {
+			this.activityEndDate = date;
+			return this;
+		}
+		
+		public Builder firstHousingStartDate(Date date) {
+			this.firstHousingStartDate = date;
+			return this;
+		}
+		
+		public Builder firstHousingEndDate(Date date) {
+			this.firstHousingEndDate = date;
+			return this;
+		}
+		
+		public Builder secondHousingStartDate(Date date) {
+			this.secondHousingStartDate = date;
+			return this;
+		}
+		
+		public Builder secondHousingEndDate(Date date) {
+			this.secondHousingEndDate = date;
+			return this;
+		}
+		
+		public Person build() {
+			return new Person(this);
+		}
+	}
 	
-	public String getLegalFirstName() {
-		return legalFirstName;
+	private Person(Builder builder) {
+		this.legalFirstName = builder.legalFirstName;
+		this.legalMiddleName = builder.legalMiddleName;
+		this.legalLastName = builder.legalLastName;
+		this.id = builder.id;
+		this.email = builder.email;
+		this.classYear = builder.classYear;
+		this.isHMCStudent = builder.isHMCStudent;
+		this.isClaremontStudent = builder.isClaremontStudent;
+		
+		this.springMoveOutDate = builder.springMoveOutDate;
+		this.fallMoveInDate = builder.fallMoveInDate;
+		this.activityStartDate = builder.activityStartDate;
+		this.activityEndDate = builder.activityEndDate;
+		this.firstHousingStartDate = builder.firstHousingStartDate;
+		this.firstHousingEndDate = builder.firstHousingEndDate;
+		this.secondHousingStartDate = builder.secondHousingStartDate;
+		this.secondHousingEndDate = builder.secondHousingEndDate;
+		this.springRoom = builder.springRoom;
+		this.fallRoom = builder.fallRoom;
 	}
 
-	public void setLegalFirstName(String legalFirstName) {
-		this.legalFirstName = legalFirstName;
+	public String getLegalFirstName() {
+		return legalFirstName;
 	}
 
 	public String getLegalMiddleName() {
@@ -60,10 +187,6 @@ public class Person {
 
 	public String getLegalLastName() {
 		return legalLastName;
-	}
-
-	public void setLegalLastName(String legalLastName) {
-		this.legalLastName = legalLastName;
 	}
 
 	public String getPreferredName() {
@@ -86,46 +209,30 @@ public class Person {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public ClassYear getClassYear() {
 		return classYear;
-	}
-
-	public void setClassYear(ClassYear classYear) {
-		this.classYear = classYear;
 	}
 
 	public boolean isHMCStudent() {
 		return isHMCStudent;
 	}
 
-	public void setHMCStudent(boolean isHMCStudent) {
-		this.isHMCStudent = isHMCStudent;
-	}
-
 	public boolean isClaremontStudent() {
 		return isClaremontStudent;
-	}
-
-	public void setClaremontStudent(boolean isClaremontStudent) {
-		this.isClaremontStudent = isClaremontStudent;
 	}
 	
 	public Date getSpringMoveOutDate() {
 		return springMoveOutDate;
 	}
-	
+
 	public void setSpringMoveOutDate(Date springMoveOutDate) {
 		this.springMoveOutDate = springMoveOutDate;
 	}
-	
+
 	public Date getFallMoveInDate() {
 		return fallMoveInDate;
 	}
-	
+
 	public void setFallMoveInDate(Date fallMoveInDate) {
 		this.fallMoveInDate = fallMoveInDate;
 	}
@@ -149,31 +256,31 @@ public class Person {
 	public void setFirstHousingStartDate(Date firstHousingStartDate) {
 		this.firstHousingStartDate = firstHousingStartDate;
 	}
-	
+
 	public Date getFirstHousingStartDate() {
 		return firstHousingStartDate;
 	}
-	
+
 	public void setFirstHousingEndDate(Date firstHousingEndDate) {
 		this.firstHousingEndDate = firstHousingEndDate;
 	}
-	
+
 	public Date getFirstHousingEndDate() {
 		return firstHousingEndDate;
 	}
-	
+
 	public void setSecondHousingStartDate(Date secondHousingStartDate) {
 		this.secondHousingStartDate = secondHousingStartDate;
 	}
-	
+
 	public Date getSecondHousingStartDate() {
 		return secondHousingStartDate;
 	}
-	
+
 	public void setSecondHousingEndDate(Date secondHousingEndDate) {
 		this.secondHousingEndDate = secondHousingEndDate;
 	}
-	
+
 	public Date getSecondHousingEndDate() {
 		return secondHousingEndDate;
 	}
@@ -225,23 +332,23 @@ public class Person {
 	public void setSecondSummerRoom(Room secondSummerRoom) {
 		this.secondSummerRoom = secondSummerRoom;
 	}
-		
+
 	public String getDisplayName() {
 		return preferredName + " " + legalLastName;
 	}
-	
+
 	public void addFirstRoommate(Person roommate) {
 		firstRoommates.add(roommate);
 	}
-	
+
 	public void addSecondRoommate(Person roommate) {
 		secondRoommates.add(roommate);
 	}
-	
+
 	public void removeFirstRoommate(Person roommate) {
 		firstRoommates.remove(roommate);
 	}
-	
+
 	public void removeSecondRoommate(Person roommate) {
 		secondRoommates.remove(roommate);
 	}
