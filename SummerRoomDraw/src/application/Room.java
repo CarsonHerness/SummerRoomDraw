@@ -3,18 +3,21 @@ package application;
 import java.util.ArrayList;
 import java.util.Date;
 
+// How should rooms be stored? Since only one Room object should exist for each dorm room
+// How should they be added to student profiles?
+// IDEA: Create School class that stores students in a HashMap by ID, and Rooms in a HashMap by abbreviated string (DW121E)
 public class Room {
 	// ---------------- SET BY BUILDER ------------------
 	private final Dorm dorm;
 	private final String roomNumber;
 	private final int minCapacity;
 	private final int maxCapacity;
-	
+
 	// whether or not this room is being used for summer residents
 	private boolean summerRoom;
-	
-	private Date springResidentMoveOutDate;
-	private Date fallResidentMoveInDate;
+
+	private Date latestSpringResidentMoveOutDate;
+	private Date earliestFallResidentMoveInDate;
 
 	// -------------- SET IN ROOM CLASS -------------------
 	// Updated whenever a summer resident is added
@@ -22,7 +25,7 @@ public class Room {
 	private Date latestMoveOutDateFirstSummerResidents;
 	private Date earliestMoveInDateSecondSummerResidents;
 	private Date latestMoveOutDateSecondSummerResidents;
-	
+
 	private ArrayList<Person> springResidents;
 	private ArrayList<Person> firstSummerResidents;
 	private ArrayList<Person> secondSummerResidents;
@@ -30,17 +33,17 @@ public class Room {
 
 	// default to false
 	private boolean summerMathRoom = false;
-	
+
 	// default to normal
 	private FallRoomType fallRoomType = FallRoomType.NORMAL;
-	
+
 	public static class Builder {
 		// Required parameters
 		private final Dorm dorm;
 		private final String roomNumber;
 		private final int minCapacity;
 		private final int maxCapacity;
-		
+
 		// Optional parameters set to default values
 		private boolean summerRoom = false;
 
@@ -52,38 +55,48 @@ public class Room {
 		// Sunday, 30 August 2020 0:00:00 GMT
 		// Epoch timestamp: 1598745600000 ms
 		private Date fallResidentMoveInDate = new Date(1598745600000L);
-		
-		public Builder(Dorm dorm, String roomNumber, int minCapacity, int maxCapacity) {
+
+		public Builder(Dorm dorm, String roomNumber, int maxCapacity) {
 			this.dorm = dorm;
 			this.roomNumber = roomNumber;
-			this.minCapacity = minCapacity;
 			this.maxCapacity = maxCapacity;
+			
+			// Triples can be doubles, Quads can be triples
+			if (maxCapacity > 2) {
+				this.minCapacity = maxCapacity - 1;
+			} else {
+				this.minCapacity = maxCapacity;
+			}
 		}
-		
+
 		public Builder summerRoom(boolean summerRoom) {
 			this.summerRoom = summerRoom;
 			return this;
 		}
-		
+
 		public Builder springResidentMoveOutDate(Date date) {
 			this.springResidentMoveOutDate = date;
 			return this;
 		}
-		
+
 		public Builder fallResidentMoveInDate(Date date) {
 			this.fallResidentMoveInDate = date;
 			return this;
 		}
+		
+		public Room build() {
+			return new Room(this);
+		}
 	}
-	
+
 	private Room(Builder builder) {
 		this.dorm = builder.dorm;
 		this.roomNumber = builder.roomNumber;
 		this.minCapacity = builder.minCapacity;
 		this.maxCapacity = builder.maxCapacity;
 		this.summerRoom = builder.summerRoom;
-		this.springResidentMoveOutDate = builder.springResidentMoveOutDate;
-		this.fallResidentMoveInDate = builder.fallResidentMoveInDate;
+		this.latestSpringResidentMoveOutDate = builder.springResidentMoveOutDate;
+		this.earliestFallResidentMoveInDate = builder.fallResidentMoveInDate;
 	}
 
 	public Dorm getDorm() {
@@ -113,8 +126,8 @@ public class Room {
 
 			// update dates
 			Date moveOutDate = person.getSpringMoveOutDate();
-			if (moveOutDate.after(springResidentMoveOutDate)) {
-				springResidentMoveOutDate = moveOutDate;
+			if (moveOutDate.after(latestSpringResidentMoveOutDate)) {
+				latestSpringResidentMoveOutDate = moveOutDate;
 			}
 		} else {
 			throw new ArrayIndexOutOfBoundsException(
@@ -130,8 +143,10 @@ public class Room {
 		// verify that there's space
 		// allowing for time overlap with Spring Resident because summer researcher can
 		// move in as roommate during Summer Math
-		// TODO: add Warning if resident's moveInDate is before the springResidentMoveOutDate
-		// TODO: add Warning if earliestMoveInDateSecondSummerResidents is before first's MoveOutDate date
+		// TODO: add Warning if resident's moveInDate is before the
+		// springResidentMoveOutDate
+		// TODO: add Warning if earliestMoveInDateSecondSummerResidents is before
+		// first's MoveOutDate date
 		if (firstSummerResidents.size() < maxCapacity) {
 			firstSummerResidents.add(person);
 
@@ -142,7 +157,7 @@ public class Room {
 			} else if (earliestMoveInDateFirstSummerResidents.after(moveInDate)) {
 				earliestMoveInDateFirstSummerResidents = moveInDate;
 			}
-			
+
 			Date moveOutDate = person.getFirstHousingEndDate();
 			if (latestMoveOutDateFirstSummerResidents == null) {
 				latestMoveOutDateFirstSummerResidents = moveOutDate;
@@ -195,25 +210,25 @@ public class Room {
 	public int getMaxCapacity() {
 		return maxCapacity;
 	}
-	
+
 	public boolean getSummerRoom() {
 		return summerRoom;
 	}
 
 	public Date getSpringResidentMoveOutDate() {
-		return springResidentMoveOutDate;
+		return latestSpringResidentMoveOutDate;
 	}
 
 	public void setSpringResidentMoveOutDate(Date springResidentMoveOutDate) {
-		this.springResidentMoveOutDate = springResidentMoveOutDate;
+		this.latestSpringResidentMoveOutDate = springResidentMoveOutDate;
 	}
 
 	public Date getFallResidentMoveInDate() {
-		return fallResidentMoveInDate;
+		return earliestFallResidentMoveInDate;
 	}
 
 	public void setFallResidentMoveInDate(Date fallResidentMoveInDate) {
-		this.fallResidentMoveInDate = fallResidentMoveInDate;
+		this.earliestFallResidentMoveInDate = fallResidentMoveInDate;
 	}
 
 	public Date getEarliestMoveInDateFirstSummerResidents() {

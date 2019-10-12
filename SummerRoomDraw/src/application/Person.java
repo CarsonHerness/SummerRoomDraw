@@ -23,13 +23,17 @@ public class Person {
 
 	private Room springRoom;
 	private Room fallRoom;
+	
+	private boolean springSquat;
+	private boolean fallSquat;
+	
 	private Date activityStartDate;
 	private Date activityEndDate;
 	private Date firstHousingStartDate;
 	private Date firstHousingEndDate;
 	private Date secondHousingStartDate;
 	private Date secondHousingEndDate;
-	
+
 	// ------------ SET BY PERSON CLASS ----------------------
 	private ArrayList<Person> firstRoommates = new ArrayList<>();
 	private ArrayList<Person> secondRoommates = new ArrayList<>();
@@ -37,13 +41,18 @@ public class Person {
 	private Room firstSummerRoom;
 	private Room secondSummerRoom;
 
+	// Will be generated as integers and converted to doubles to allow for late
+	// additions (for numbers such as 3.5)
+	private double roomDrawNumber;
+
 	/**
 	 * 
 	 * @author Carson Herness
 	 * 
 	 *         Builder class is used to construct all known information about the
 	 *         student, before assigning rooms or roommates for the summer. All
-	 *         roommates and room assignments will be done by the Person class.
+	 *         summer roommates and room assignments will be done by the Person
+	 *         class.
 	 *
 	 */
 	public static class Builder {
@@ -67,6 +76,9 @@ public class Person {
 		// Sunday, 30 August 2020 0:00:00 GMT
 		// Epoch timestamp: 1598745600000 ms
 		private Date fallMoveInDate = new Date(1598745600000L);
+		
+		private boolean springSquat = false;
+		private boolean fallSquat = false;
 
 		// optional parameters left null if not used
 		private Date activityStartDate;
@@ -95,7 +107,7 @@ public class Person {
 			this.email = email;
 			return this;
 		}
-		
+
 		public Builder legalMiddleName(String name) {
 			this.legalMiddleName = name;
 			return this;
@@ -110,42 +122,62 @@ public class Person {
 			this.fallMoveInDate = date;
 			return this;
 		}
-		
+
 		public Builder activityStartDate(Date date) {
 			this.activityStartDate = date;
 			return this;
 		}
-		
+
 		public Builder activityEndDate(Date date) {
 			this.activityEndDate = date;
 			return this;
 		}
-		
+
 		public Builder firstHousingStartDate(Date date) {
 			this.firstHousingStartDate = date;
 			return this;
 		}
-		
+
 		public Builder firstHousingEndDate(Date date) {
 			this.firstHousingEndDate = date;
 			return this;
 		}
-		
+
 		public Builder secondHousingStartDate(Date date) {
 			this.secondHousingStartDate = date;
 			return this;
 		}
-		
+
 		public Builder secondHousingEndDate(Date date) {
 			this.secondHousingEndDate = date;
 			return this;
 		}
+
+		public Builder springRoom(Room room) {
+			this.springRoom = room;
+			return this;
+		}
+
+		public Builder fallRoom(Room room) {
+			this.fallRoom = room;
+			return this;
+		}
 		
+		public Builder springSquat(boolean springSquat) {
+			this.springSquat = springSquat;
+			return this;
+		}
+		
+		public Builder fallSquat(boolean fallSquat) {
+			this.fallSquat = fallSquat;
+			return this;
+		}
+
 		public Person build() {
 			return new Person(this);
 		}
 	}
-	
+
 	private Person(Builder builder) {
 		this.legalFirstName = builder.legalFirstName;
 		this.legalMiddleName = builder.legalMiddleName;
@@ -155,9 +187,11 @@ public class Person {
 		this.classYear = builder.classYear;
 		this.isHMCStudent = builder.isHMCStudent;
 		this.isClaremontStudent = builder.isClaremontStudent;
-		
+
 		this.springMoveOutDate = builder.springMoveOutDate;
 		this.fallMoveInDate = builder.fallMoveInDate;
+		this.springSquat = builder.springSquat;
+		this.fallSquat = builder.fallSquat;
 		this.activityStartDate = builder.activityStartDate;
 		this.activityEndDate = builder.activityEndDate;
 		this.firstHousingStartDate = builder.firstHousingStartDate;
@@ -215,7 +249,7 @@ public class Person {
 	public boolean isClaremontStudent() {
 		return isClaremontStudent;
 	}
-	
+
 	public Date getSpringMoveOutDate() {
 		return springMoveOutDate;
 	}
@@ -292,16 +326,8 @@ public class Person {
 		return springRoom;
 	}
 
-	public void setSpringRoom(Room springRoom) {
-		this.springRoom = springRoom;
-	}
-
 	public Room getFallRoom() {
 		return fallRoom;
-	}
-
-	public void setFallRoom(Room fallRoom) {
-		this.fallRoom = fallRoom;
 	}
 
 	public Room getFirstSummerRoom() {
@@ -338,5 +364,21 @@ public class Person {
 
 	public void removeSecondRoommate(Person roommate) {
 		secondRoommates.remove(roommate);
+	}
+	
+	public double getRoomDrawNumber() {
+		return roomDrawNumber;
+	}
+	
+	public void setRoomDrawNumber(double num) {
+		this.roomDrawNumber = num;
+	}
+	
+	public boolean getFallSquat() {
+		return fallSquat;
+	}
+	
+	public boolean getSpringSquat() {
+		return springSquat;
 	}
 }
