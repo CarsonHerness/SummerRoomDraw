@@ -51,7 +51,7 @@ public class PersonTest {
 	public static Person person1 = new Person.Builder("Person1First", "Person1Last", "01", ClassYear.YEAR_2021)
 			.activityStartDate(date1).activityEndDate(date6).fallRoom(room1).springRoom(room3)
 			.firstHousingStartDate(date1).firstHousingEndDate(date4).secondHousingStartDate(date5)
-			.secondHousingEndDate(date7).preferredName("Person1Preferrred").fallSquat(true).build();
+			.secondHousingEndDate(date7).preferredName("Person1Preferred").fallSquat(true).build();
 
 	// overrides default values
 	public static Person person2 = new Person.Builder("Person2First", "Person2Last", "02", ClassYear.YEAR_2020)
@@ -64,38 +64,42 @@ public class PersonTest {
 	public void constructorChecks() {
 		assertEquals(person1.getLegalFirstName(), "Person1First");
 		assertEquals(person1.getLegalLastName(), "Person1Last");
-		assertEquals(person1.getLegalMiddleName(), null);
-		assertEquals(person1.getPreferredName(), "Person1Preferred");
+		assertFalse(person1.getLegalMiddleName().isPresent());
+		assertEquals(person1.getPreferredName().get(), "Person1Preferred");
 		assertEquals(person1.getId(), "01");
 		assertEquals(person1.getClassYear(), ClassYear.YEAR_2021);
-		assertEquals(person1.getActivityStartDate(), date1);
-		assertEquals(person1.getActivityEndDate(), date6);
-		assertEquals(person1.getFallRoom(), room1);
-		assertEquals(person1.getSpringRoom(), room3);
-		assertEquals(person1.getFirstHousingStartDate(), date1);
-		assertEquals(person1.getFirstHousingEndDate(), date4);
-		assertEquals(person1.getEmail(), null);
+		assertEquals(person1.getActivityStartDate().get(), date1);
+		assertEquals(person1.getActivityEndDate().get(), date6);
+		assertEquals(person1.getFallRoom().get(), room1);
+		assertEquals(person1.getSpringRoom().get(), room3);
+		assertEquals(person1.getFirstHousingStartDate().get(), date1);
+		assertEquals(person1.getFirstHousingEndDate().get(), date4);
+		assertFalse(person1.getEmail().isPresent());
 		assertEquals(person1.getIsHMCStudent(), true);
 		assertEquals(person1.getIsClaremontStudent(), true);
 		assertEquals(person1.getSpringMoveOutDate(), springMoveOutDate);
 		assertEquals(person1.getFallMoveInDate(), fallMoveInDate);
-		assertEquals(person1.getSpringRoom(), room3);
-		assertEquals(person1.getFallRoom(), room1);
+		assertEquals(person1.getSpringRoom().get(), room3);
+		assertEquals(person1.getFallRoom().get(), room1);
 		assertEquals(person1.getSpringSquat(), false);
 		assertEquals(person1.getFallSquat(), true);
-		assertEquals(person1.getSecondHousingStartDate(), date5);
-		assertEquals(person1.getSecondHousingEndDate(), date7);
+		assertEquals(person1.getSecondHousingStartDate().get(), date5);
+		assertEquals(person1.getSecondHousingEndDate().get(), date7);
 		assertEquals(person1.getPrePlaced(), true);
 		
-		assertEquals(person2.getLegalMiddleName(), "Person2Middle");
-		assertEquals(person2.getPreferredName(), null);
-		assertEquals(person2.getActivityStartDate(), null);
-		assertEquals(person2.getActivityEndDate(), null);
-		assertEquals(person2.getFallRoom(), null);
-		assertEquals(person2.getSpringRoom(), null);
+		assertEquals(person2.getLegalMiddleName().get(), "Person2Middle");
+		assertFalse(person2.getPreferredName().isPresent());
+		assertFalse(person2.getActivityStartDate().isPresent());
+		assertFalse(person2.getActivityEndDate().isPresent());
+		assertFalse(person2.getFirstHousingStartDate().isPresent());
+		assertFalse(person2.getFirstHousingEndDate().isPresent());
+		assertFalse(person2.getSecondHousingStartDate().isPresent());
+		assertFalse(person2.getSecondHousingEndDate().isPresent());
+		assertFalse(person2.getFallRoom().isPresent());
+		assertFalse(person2.getSpringRoom().isPresent());
 		assertEquals(person2.getFallMoveInDate(), date7);
 		assertEquals(person2.getSpringMoveOutDate(), date2);
-		assertEquals(person2.getEmail(), email);
+		assertEquals(person2.getEmail().get(), email);
 		assertEquals(person2.getIsHMCStudent(), false);
 		assertEquals(person2.getIsClaremontStudent(), false);
 		assertEquals(person2.getPrePlaced(), true);

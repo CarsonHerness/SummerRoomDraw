@@ -3,9 +3,6 @@ package application;
 import java.util.ArrayList;
 import java.util.Date;
 
-// How should rooms be stored? Since only one Room object should exist for each dorm room
-// How should they be added to student profiles?
-// IDEA: Create School class that stores students in a HashMap by ID, and Rooms in a HashMap by abbreviated string (DW121E)
 public class Room {
 	// ---------------- SET BY BUILDER ------------------
 	private final Dorm dorm;
@@ -152,14 +149,14 @@ public class Room {
 			firstSummerResidents.add(person);
 
 			// update dates
-			Date moveInDate = person.getFirstHousingStartDate();
+			Date moveInDate = person.getFirstHousingStartDate().get();
 			if (earliestMoveInDateFirstSummerResidents == null) {
 				earliestMoveInDateFirstSummerResidents = moveInDate;
 			} else if (earliestMoveInDateFirstSummerResidents.after(moveInDate)) {
 				earliestMoveInDateFirstSummerResidents = moveInDate;
 			}
 
-			Date moveOutDate = person.getFirstHousingEndDate();
+			Date moveOutDate = person.getFirstHousingEndDate().get();
 			if (latestMoveOutDateFirstSummerResidents == null) {
 				latestMoveOutDateFirstSummerResidents = moveOutDate;
 			} else if (latestMoveOutDateFirstSummerResidents.before(moveOutDate)) {
@@ -184,7 +181,7 @@ public class Room {
 		if (secondSummerResidents.size() < maxCapacity) {
 			secondSummerResidents.add(person);
 
-			// update dates
+			// TODO: update dates
 		} else {
 			// This is not flexible, so it throws an exception rather than creating a Warning
 			throw new ArrayIndexOutOfBoundsException(
@@ -201,7 +198,7 @@ public class Room {
 		if (fallResidents.size() < maxCapacity) {
 			fallResidents.add(person);
 
-			// update dates
+			// TODO: update dates
 		} else {
 			// This is not flexible, so it throws an exception rather than creating a Warning
 			throw new ArrayIndexOutOfBoundsException(

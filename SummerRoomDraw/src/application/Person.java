@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 public class Person {
 	// ----------------- SET BY BUILDER -----------------------
@@ -249,8 +250,8 @@ public class Person {
 		return legalFirstName;
 	}
 
-	public String getLegalMiddleName() {
-		return legalMiddleName;
+	public Optional<String> getLegalMiddleName() {
+		return Optional.ofNullable(legalMiddleName);
 	}
 
 	public void setLegalMiddleName(String legalMiddleName) {
@@ -261,16 +262,16 @@ public class Person {
 		return legalLastName;
 	}
 
-	public String getPreferredName() {
-		return preferredName;
+	public Optional<String> getPreferredName() {
+		return Optional.ofNullable(preferredName);
 	}
 
 	public void setPreferredName(String preferredName) {
 		this.preferredName = preferredName;
 	}
 
-	public String getEmail() {
-		return email;
+	public Optional<String> getEmail() {
+		return Optional.ofNullable(email);
 	}
 
 	public void setEmail(String email) {
@@ -309,16 +310,16 @@ public class Person {
 		this.fallMoveInDate = fallMoveInDate;
 	}
 
-	public Date getActivityStartDate() {
-		return activityStartDate;
+	public Optional<Date> getActivityStartDate() {
+		return Optional.ofNullable(activityStartDate);
 	}
 
 	public void setActivityStartDate(Date activityStartDate) {
 		this.activityStartDate = activityStartDate;
 	}
 
-	public Date getActivityEndDate() {
-		return activityEndDate;
+	public Optional<Date> getActivityEndDate() {
+		return Optional.ofNullable(activityEndDate);
 	}
 
 	public void setActivityEndDate(Date activityEndDate) {
@@ -329,32 +330,32 @@ public class Person {
 		this.firstHousingStartDate = firstHousingStartDate;
 	}
 
-	public Date getFirstHousingStartDate() {
-		return firstHousingStartDate;
+	public Optional<Date> getFirstHousingStartDate() {
+		return Optional.ofNullable(firstHousingStartDate);
 	}
 
 	public void setFirstHousingEndDate(Date firstHousingEndDate) {
 		this.firstHousingEndDate = firstHousingEndDate;
 	}
 
-	public Date getFirstHousingEndDate() {
-		return firstHousingEndDate;
+	public Optional<Date> getFirstHousingEndDate() {
+		return Optional.ofNullable(firstHousingEndDate);
 	}
 
 	public void setSecondHousingStartDate(Date secondHousingStartDate) {
 		this.secondHousingStartDate = secondHousingStartDate;
 	}
 
-	public Date getSecondHousingStartDate() {
-		return secondHousingStartDate;
+	public Optional<Date> getSecondHousingStartDate() {
+		return Optional.ofNullable(secondHousingStartDate);
 	}
 
 	public void setSecondHousingEndDate(Date secondHousingEndDate) {
 		this.secondHousingEndDate = secondHousingEndDate;
 	}
 
-	public Date getSecondHousingEndDate() {
-		return secondHousingEndDate;
+	public Optional<Date> getSecondHousingEndDate() {
+		return Optional.ofNullable(secondHousingEndDate);
 	}
 
 	public ArrayList<Person> getFirstRoommates() {
@@ -365,24 +366,24 @@ public class Person {
 		return secondRoommates;
 	}
 
-	public Room getSpringRoom() {
-		return springRoom;
+	public Optional<Room> getSpringRoom() {
+		return Optional.ofNullable(springRoom);
 	}
 
-	public Room getFallRoom() {
-		return fallRoom;
+	public Optional<Room> getFallRoom() {
+		return Optional.ofNullable(fallRoom);
 	}
 
-	public Room getFirstSummerRoom() {
-		return firstSummerRoom;
+	public Optional<Room> getFirstSummerRoom() {
+		return Optional.ofNullable(firstSummerRoom);
 	}
 
 	public void setFirstSummerRoom(Room firstSummerRoom) {
 		this.firstSummerRoom = firstSummerRoom;
 	}
 
-	public Room getSecondSummerRoom() {
-		return secondSummerRoom;
+	public Optional<Room> getSecondSummerRoom() {
+		return Optional.ofNullable(secondSummerRoom);
 	}
 
 	public void setSecondSummerRoom(Room secondSummerRoom) {
@@ -390,7 +391,11 @@ public class Person {
 	}
 
 	public String getDisplayName() {
-		return preferredName + " " + legalLastName;
+		if (preferredName != null) {
+			return preferredName + " " + legalLastName;
+		} else {
+			return legalFirstName + " " + legalLastName;
+		}
 	}
 
 	public void addFirstRoommate(Person roommate) {
@@ -409,8 +414,8 @@ public class Person {
 		secondRoommates.remove(roommate);
 	}
 	
-	public double getRoomDrawNumber() {
-		return roomDrawNumber;
+	public Optional<Double> getRoomDrawNumber() {
+		return Optional.ofNullable(roomDrawNumber);
 	}
 	
 	public void setRoomDrawNumber(double num) {
