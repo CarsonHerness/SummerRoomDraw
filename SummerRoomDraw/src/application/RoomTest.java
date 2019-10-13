@@ -11,4 +11,6 @@ public class RoomTest {
 		fail("Not yet implemented");
 	}
 
+	
+	// test adding people to room and checking first and last move in dates
 }

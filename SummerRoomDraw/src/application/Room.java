@@ -60,7 +60,7 @@ public class Room {
 			this.dorm = dorm;
 			this.roomNumber = roomNumber;
 			this.maxCapacity = maxCapacity;
-			
+
 			// Triples can be doubles, Quads can be triples
 			if (maxCapacity > 2) {
 				this.minCapacity = maxCapacity - 1;
@@ -83,7 +83,7 @@ public class Room {
 			this.fallResidentMoveInDate = date;
 			return this;
 		}
-		
+
 		public Room build() {
 			return new Room(this);
 		}
@@ -130,6 +130,7 @@ public class Room {
 				latestSpringResidentMoveOutDate = moveOutDate;
 			}
 		} else {
+			// this is not a flexible rule that can be overrode, so throws an exception
 			throw new ArrayIndexOutOfBoundsException(
 					getRoomName() + " is full for Spring. Cannot add " + person.getDisplayName());
 		}
@@ -166,6 +167,9 @@ public class Room {
 			}
 
 		} else {
+			// This is not flexible. If roommates are changing (so it lookes like there can
+			// be more than the maximum number of roommates), then use firstSummerResidents
+			// and secondSummerResidents
 			throw new ArrayIndexOutOfBoundsException(
 					getRoomName() + " is full for Summer Room 1. Cannot add " + person.getDisplayName());
 		}
@@ -182,6 +186,7 @@ public class Room {
 
 			// update dates
 		} else {
+			// This is not flexible, so it throws an exception rather than creating a Warning
 			throw new ArrayIndexOutOfBoundsException(
 					getRoomName() + " is full for Summer Room 2. Cannot add " + person.getDisplayName());
 		}
@@ -198,6 +203,7 @@ public class Room {
 
 			// update dates
 		} else {
+			// This is not flexible, so it throws an exception rather than creating a Warning
 			throw new ArrayIndexOutOfBoundsException(
 					getRoomName() + " is full for Fall. Cannot add " + person.getDisplayName());
 		}

@@ -12,7 +12,7 @@ public class Person {
 	private String email;
 
 	// For Claremont students, this is their Claremont ID. Otherwise, we generate
-	// their ID.
+	// an ID for them.
 	private final String id;
 	private final ClassYear classYear;
 	private final boolean isHMCStudent;
@@ -33,11 +33,14 @@ public class Person {
 	private Date firstHousingEndDate;
 	private Date secondHousingStartDate;
 	private Date secondHousingEndDate;
+	
+	private boolean prePlaced;
 
 	// ------------ SET BY PERSON CLASS ----------------------
 	private ArrayList<Person> firstRoommates = new ArrayList<>();
 	private ArrayList<Person> secondRoommates = new ArrayList<>();
 
+	// must do null check before using these
 	private Room firstSummerRoom;
 	private Room secondSummerRoom;
 
@@ -61,12 +64,10 @@ public class Person {
 		private final String legalLastName;
 		private final String id;
 		private final ClassYear classYear;
-		private final boolean isHMCStudent;
-		private final boolean isClaremontStudent;
 
-		// Optional parameters set to default values
-		private String legalMiddleName = new String();
-		private String email = new String();
+		// Parameters set to default values
+		private boolean isHMCStudent = true;
+		private boolean isClaremontStudent = true;
 
 		// defaulted to normal values for HMC student
 		// Monday, 18 May 2020 0:00:00 GMT
@@ -79,8 +80,10 @@ public class Person {
 		
 		private boolean springSquat = false;
 		private boolean fallSquat = false;
+		private boolean prePlaced = false;
 
 		// optional parameters left null if not used
+		// must do null check before using
 		private Date activityStartDate;
 		private Date activityEndDate;
 
@@ -92,15 +95,17 @@ public class Person {
 
 		private Room springRoom;
 		private Room fallRoom;
+		
+		private String preferredName;
+		
+		private String legalMiddleName;
+		private String email;
 
-		public Builder(String legalFirstName, String legalLastName, String id, ClassYear classYear,
-				boolean isHMCStudent, boolean isClaremontStudent) {
+		public Builder(String legalFirstName, String legalLastName, String id, ClassYear classYear) {
 			this.legalFirstName = legalFirstName;
 			this.legalLastName = legalLastName;
 			this.id = id;
 			this.classYear = classYear;
-			this.isHMCStudent = isHMCStudent;
-			this.isClaremontStudent = isClaremontStudent;
 		}
 
 		public Builder email(String email) {
@@ -155,21 +160,57 @@ public class Person {
 
 		public Builder springRoom(Room room) {
 			this.springRoom = room;
+			// add Person as springResident to room
 			return this;
 		}
 
 		public Builder fallRoom(Room room) {
 			this.fallRoom = room;
+			// add Person as fallResident to room
 			return this;
 		}
 		
 		public Builder springSquat(boolean springSquat) {
 			this.springSquat = springSquat;
+			if (springSquat) {
+				this.prePlaced = true;
+			}
+			// person is not automatically added to room for summer yet; this is done during the pre-placement around
 			return this;
 		}
 		
 		public Builder fallSquat(boolean fallSquat) {
 			this.fallSquat = fallSquat;
+			if (fallSquat) {
+				this.prePlaced = true;
+			}
+			// person is not automatically added to room for summer yet; this is done during the pre-placement around
+			return this;
+		}
+		
+		public Builder preferredName(String name) {
+			this.preferredName = name;
+			return this;
+		}
+		
+		public Builder prePlaced(boolean prePlaced) {
+			this.prePlaced = prePlaced;
+			return this;
+		}
+		
+		public Builder isHMCStudent(boolean isHMCStudent) {
+			this.isHMCStudent = isHMCStudent;
+			if (!isHMCStudent) {
+				this.prePlaced = true;
+			}
+			return this;
+		}
+		
+		public Builder isClaremontStudent(boolean isClaremontStudent) {
+			this.isClaremontStudent = isClaremontStudent;
+			if (!isClaremontStudent) {
+				this.prePlaced = true;
+			}
 			return this;
 		}
 
@@ -200,6 +241,8 @@ public class Person {
 		this.secondHousingEndDate = builder.secondHousingEndDate;
 		this.springRoom = builder.springRoom;
 		this.fallRoom = builder.fallRoom;
+		this.preferredName = builder.preferredName;
+		this.prePlaced = builder.prePlaced;
 	}
 
 	public String getLegalFirstName() {
@@ -380,5 +423,26 @@ public class Person {
 	
 	public boolean getSpringSquat() {
 		return springSquat;
+	}
+	
+	public boolean getPrePlaced() {
+		return prePlaced;
+	}
+	
+	/**
+	 * 
+	 * @param prePlaced
+	 * This can be changed in cases such as a Fall Squat or Spring Squat cannot be realized
+	 */
+	public void setPrePlaced(boolean prePlaced) {
+		this.prePlaced = prePlaced;
+	}
+	
+	public boolean getIsClaremontStudent() {
+		return isClaremontStudent;
+	}
+	
+	public boolean getIsHMCStudent() {
+		return isHMCStudent;
 	}
 }
