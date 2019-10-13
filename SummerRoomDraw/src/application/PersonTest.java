@@ -47,13 +47,11 @@ public class PersonTest {
 	public static Person summerMathOnly = new Person.Builder("Summer", "Math", "00", ClassYear.YEAR_2023)
 			.springMoveOutDate(date3).springRoom(summerMathRoom).build();
 
-	// uses default values
 	public static Person person1 = new Person.Builder("Person1First", "Person1Last", "01", ClassYear.YEAR_2021)
 			.activityStartDate(date1).activityEndDate(date6).fallRoom(room1).springRoom(room3)
 			.firstHousingStartDate(date1).firstHousingEndDate(date4).secondHousingStartDate(date5)
 			.secondHousingEndDate(date7).preferredName("Person1Preferred").fallSquat(true).build();
 
-	// overrides default values
 	public static Person person2 = new Person.Builder("Person2First", "Person2Last", "02", ClassYear.YEAR_2020)
 			.springMoveOutDate(date2).fallMoveInDate(date7).legalMiddleName("Person2Middle").email(email)
 			.isClaremontStudent(false).isHMCStudent(false).build();

@@ -23,10 +23,10 @@ public class Room {
 	private Date earliestMoveInDateSecondSummerResidents;
 	private Date latestMoveOutDateSecondSummerResidents;
 
-	private ArrayList<Person> springResidents;
-	private ArrayList<Person> firstSummerResidents;
-	private ArrayList<Person> secondSummerResidents;
-	private ArrayList<Person> fallResidents;
+	private ArrayList<Person> springResidents = new ArrayList<>();
+	private ArrayList<Person> firstSummerResidents = new ArrayList<>();
+	private ArrayList<Person> secondSummerResidents = new ArrayList<>();
+	private ArrayList<Person> fallResidents = new ArrayList<>();
 
 	// default to false
 	private boolean summerMathRoom = false;

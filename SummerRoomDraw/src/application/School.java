@@ -7,7 +7,9 @@ public class School {
 	
 	private static Map<String, Room> dormRooms = new HashMap<>();
 	private static Map<String, Person> students = new HashMap<>();
-
+	// add Map of summerRooms for use by prePlacement/room Draw
+	// also have Map of availableSummerRooms
+	
 	// function to read from file and fill the dormRooms
 	private static void readDormRoomsFromFile() {
 		
