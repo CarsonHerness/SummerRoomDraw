@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 public class Room {
 	// ---------------- SET BY BUILDER ------------------
@@ -234,32 +235,32 @@ public class Room {
 		this.earliestFallResidentMoveInDate = fallResidentMoveInDate;
 	}
 
-	public Date getEarliestMoveInDateFirstSummerResidents() {
-		return earliestMoveInDateFirstSummerResidents;
+	public Optional<Date> getEarliestMoveInDateFirstSummerResidents() {
+		return Optional.ofNullable(earliestMoveInDateFirstSummerResidents);
 	}
 
 	public void setEarliestMoveInDateFirstSummerResidents(Date earliestMoveInDateFirstSummerResidents) {
 		this.earliestMoveInDateFirstSummerResidents = earliestMoveInDateFirstSummerResidents;
 	}
 
-	public Date getLatestMoveOutDateFirstSummerResidents() {
-		return latestMoveOutDateFirstSummerResidents;
+	public Optional<Date> getLatestMoveOutDateFirstSummerResidents() {
+		return Optional.ofNullable(latestMoveOutDateFirstSummerResidents);
 	}
 
 	public void setLatestMoveOutDateFirstSummerResidents(Date latestMoveOutDateFirstSummerResidents) {
 		this.latestMoveOutDateFirstSummerResidents = latestMoveOutDateFirstSummerResidents;
 	}
 
-	public Date getEarliestMoveInDateSecondSummerResidents() {
-		return earliestMoveInDateSecondSummerResidents;
+	public Optional<Date> getEarliestMoveInDateSecondSummerResidents() {
+		return Optional.ofNullable(earliestMoveInDateSecondSummerResidents);
 	}
 
 	public void setEarliestMoveInDateSecondSummerResidents(Date earliestMoveInDateSecondSummerResidents) {
 		this.earliestMoveInDateSecondSummerResidents = earliestMoveInDateSecondSummerResidents;
 	}
 
-	public Date getLatestMoveOutDateSecondSummerResidents() {
-		return latestMoveOutDateSecondSummerResidents;
+	public Optional<Date> getLatestMoveOutDateSecondSummerResidents() {
+		return Optional.ofNullable(latestMoveOutDateSecondSummerResidents);
 	}
 
 	public void setLatestMoveOutDateSecondSummerResidents(Date latestMoveOutDateSecondSummerResidents) {
