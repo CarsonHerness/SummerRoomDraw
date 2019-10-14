@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
-public class Person {
+public class Person implements Comparable<Person> {
 	// ----------------- SET BY BUILDER -----------------------
 	private final String legalFirstName;
 	private String legalMiddleName;
@@ -24,17 +24,17 @@ public class Person {
 
 	private Room springRoom;
 	private Room fallRoom;
-	
+
 	private boolean springSquat;
 	private boolean fallSquat;
-	
+
 	private Date activityStartDate;
 	private Date activityEndDate;
 	private Date firstHousingStartDate;
 	private Date firstHousingEndDate;
 	private Date secondHousingStartDate;
 	private Date secondHousingEndDate;
-	
+
 	private boolean prePlaced;
 
 	// ------------ SET BY PERSON CLASS ----------------------
@@ -78,7 +78,7 @@ public class Person {
 		// Sunday, 30 August 2020 0:00:00 GMT
 		// Epoch timestamp: 1598745600000 ms
 		private Date fallMoveInDate = new Date(1598745600000L);
-		
+
 		private boolean springSquat = false;
 		private boolean fallSquat = false;
 		private boolean prePlaced = false;
@@ -96,9 +96,9 @@ public class Person {
 
 		private Room springRoom;
 		private Room fallRoom;
-		
+
 		private String preferredName;
-		
+
 		private String legalMiddleName;
 		private String email;
 
@@ -161,44 +161,46 @@ public class Person {
 
 		public Builder springRoom(Room room) {
 			this.springRoom = room;
-			// add Person as springResident to room
+			// TODO: add Person as springResident to room
 			return this;
 		}
 
 		public Builder fallRoom(Room room) {
 			this.fallRoom = room;
-			// add Person as fallResident to room
+			// TODO: add Person as fallResident to room
 			return this;
 		}
-		
+
 		public Builder springSquat(boolean springSquat) {
 			this.springSquat = springSquat;
 			if (springSquat) {
 				this.prePlaced = true;
 			}
-			// person is not automatically added to room for summer yet; this is done during the pre-placement around
+			// person is not automatically added to room for summer yet; this is done during
+			// the pre-placement around
 			return this;
 		}
-		
+
 		public Builder fallSquat(boolean fallSquat) {
 			this.fallSquat = fallSquat;
 			if (fallSquat) {
 				this.prePlaced = true;
 			}
-			// person is not automatically added to room for summer yet; this is done during the pre-placement around
+			// person is not automatically added to room for summer yet; this is done during
+			// the pre-placement around
 			return this;
 		}
-		
+
 		public Builder preferredName(String name) {
 			this.preferredName = name;
 			return this;
 		}
-		
+
 		public Builder prePlaced(boolean prePlaced) {
 			this.prePlaced = prePlaced;
 			return this;
 		}
-		
+
 		public Builder isHMCStudent(boolean isHMCStudent) {
 			this.isHMCStudent = isHMCStudent;
 			if (!isHMCStudent) {
@@ -206,7 +208,7 @@ public class Person {
 			}
 			return this;
 		}
-		
+
 		public Builder isClaremontStudent(boolean isClaremontStudent) {
 			this.isClaremontStudent = isClaremontStudent;
 			if (!isClaremontStudent) {
@@ -229,7 +231,6 @@ public class Person {
 		this.classYear = builder.classYear;
 		this.isHMCStudent = builder.isHMCStudent;
 		this.isClaremontStudent = builder.isClaremontStudent;
-
 		this.springMoveOutDate = builder.springMoveOutDate;
 		this.fallMoveInDate = builder.fallMoveInDate;
 		this.springSquat = builder.springSquat;
@@ -413,41 +414,48 @@ public class Person {
 	public void removeSecondRoommate(Person roommate) {
 		secondRoommates.remove(roommate);
 	}
-	
+
 	public Optional<Double> getRoomDrawNumber() {
 		return Optional.ofNullable(roomDrawNumber);
 	}
-	
+
 	public void setRoomDrawNumber(double num) {
 		this.roomDrawNumber = num;
 	}
-	
+
 	public boolean getFallSquat() {
 		return fallSquat;
 	}
-	
+
 	public boolean getSpringSquat() {
 		return springSquat;
 	}
-	
+
 	public boolean getPrePlaced() {
 		return prePlaced;
 	}
-	
+
 	/**
 	 * 
 	 * @param prePlaced
-	 * This can be changed in cases such as a Fall Squat or Spring Squat cannot be realized
+	 *            This can be changed in cases such as a Fall Squat or Spring Squat
+	 *            cannot be realized
 	 */
 	public void setPrePlaced(boolean prePlaced) {
 		this.prePlaced = prePlaced;
 	}
-	
+
 	public boolean getIsClaremontStudent() {
 		return isClaremontStudent;
 	}
-	
+
 	public boolean getIsHMCStudent() {
 		return isHMCStudent;
+	}
+
+	@Override
+	public int compareTo(Person person) {
+		// use IDs to order people
+		return id.compareTo(person.getId());
 	}
 }

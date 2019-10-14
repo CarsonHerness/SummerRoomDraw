@@ -72,16 +72,6 @@ public class Room {
 			return this;
 		}
 
-		public Builder springResidentMoveOutDate(Date date) {
-			this.springResidentMoveOutDate = date;
-			return this;
-		}
-
-		public Builder fallResidentMoveInDate(Date date) {
-			this.fallResidentMoveInDate = date;
-			return this;
-		}
-
 		public Room build() {
 			return new Room(this);
 		}
@@ -126,6 +116,8 @@ public class Room {
 			Date moveOutDate = person.getSpringMoveOutDate();
 			if (moveOutDate.after(latestSpringResidentMoveOutDate)) {
 				latestSpringResidentMoveOutDate = moveOutDate;
+			} else {
+				
 			}
 		} else {
 			// this is not a flexible rule that can be overrode, so throws an exception
@@ -146,6 +138,7 @@ public class Room {
 		// springResidentMoveOutDate
 		// TODO: add Warning if earliestMoveInDateSecondSummerResidents is before
 		// first's MoveOutDate date
+		// TODO: add roommates to each person in room
 		if (firstSummerResidents.size() < maxCapacity) {
 			firstSummerResidents.add(person);
 
@@ -172,6 +165,10 @@ public class Room {
 					getRoomName() + " is full for Summer Room 1. Cannot add " + person.getDisplayName());
 		}
 	}
+	
+	public void removeFirstSummerResident(Person person) {
+		// TODO: implement
+	}
 
 	public ArrayList<Person> getSecondSummerResidents() {
 		return secondSummerResidents;
@@ -188,6 +185,10 @@ public class Room {
 			throw new ArrayIndexOutOfBoundsException(
 					getRoomName() + " is full for Summer Room 2. Cannot add " + person.getDisplayName());
 		}
+	}
+	
+	public void removeSecondSummerResident(Person person) {
+		// TODO: implement
 	}
 
 	public ArrayList<Person> getFallResidents() {

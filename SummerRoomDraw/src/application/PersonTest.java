@@ -29,7 +29,6 @@ public class PersonTest {
 	// August 8, 2019 00:00:00 in ms
 	public static final Date date7 = new Date(1596844800000L);
 
-	// defaulted to normal values for HMC student
 	// Monday, 18 May 2020 0:00:00 GMT
 	private static final Date springMoveOutDate = new Date(1589760000000L);
 
@@ -104,9 +103,11 @@ public class PersonTest {
 		
 		assertEquals(person3.getPrePlaced(), false);
 	}
-
-	// Maximal roommates added firstSummer, check room sizes along the way
-
-	// Maximal roommates added secondSummer
+	
+	@Test
+	public void displayNameTest() {
+		assertEquals(person1.getDisplayName(), "Person1Preferred Person1Last");
+		assertEquals(person2.getDisplayName(), "Person2First Person2Last");
+	}
 
 }
