@@ -363,7 +363,7 @@ public class Person implements Comparable<Person> {
 		return firstRoommates;
 	}
 
-	public ArrayList<Person> getSecondRoomates() {
+	public ArrayList<Person> getSecondRoommates() {
 		return secondRoommates;
 	}
 

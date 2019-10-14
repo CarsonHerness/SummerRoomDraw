@@ -40,6 +40,7 @@ public class RoomTest {
 	Room room1 = new Room.Builder(Dorm.DRINKWARD, "111E", 3).build();
 	Room room2 = new Room.Builder(Dorm.CASE, "111", 1).build();
 	Room room3 = new Room.Builder(Dorm.SONTAG, "113D", 2).build();
+	Room room4 = new Room.Builder(Dorm.CASE, "422", 2).build();
 
 	Person person1 = new Person.Builder("P1", "P1", "01", ClassYear.YEAR_2020).springMoveOutDate(date2)
 			.firstHousingStartDate(date3).firstHousingEndDate(date7).build();
@@ -47,7 +48,13 @@ public class RoomTest {
 			.firstHousingEndDate(date6).fallMoveInDate(date7).build();
 	Person person3 = new Person.Builder("P3", "P3", "03", ClassYear.YEAR_2023).springMoveOutDate(date1).build();
 	Person person4 = new Person.Builder("P4", "P4", "04", ClassYear.YEAR_2022).springMoveOutDate(date1)
-			.firstHousingEndDate(date2).firstHousingEndDate(date4).build();
+			.firstHousingStartDate(date2).firstHousingEndDate(date4).secondHousingStartDate(date5)
+			.secondHousingEndDate(date6).build();
+	Person person5 = new Person.Builder("P5", "P5", "05", ClassYear.YEAR_2022).firstHousingStartDate(date2)
+			.firstHousingEndDate(date4).secondHousingStartDate(date5).secondHousingEndDate(date7).build();
+	Person person6 = new Person.Builder("P6", "P6", "06", ClassYear.YEAR_2022).springMoveOutDate(date1)
+			.firstHousingStartDate(date1).firstHousingEndDate(date3).secondHousingStartDate(date4)
+			.secondHousingEndDate(date6).build();
 
 	@Test
 	public void constructorTest() {
@@ -129,59 +136,105 @@ public class RoomTest {
 	public void addAndRemoveFirstSummerResidentTest() {
 		// check move in and move out dates
 		assertFalse(room3.getEarliestMoveInDateFirstSummerResidents().isPresent());
-		
+
 		room3.addFirstSummerResident(person1);
 		assertEquals(room3.getEarliestMoveInDateFirstSummerResidents(), date3);
 		assertEquals(room3.getLatestMoveOutDateFirstSummerResidents(), date7);
-		
-		room3.addFallResident(person2);
+
+		room3.addFirstSummerResident(person2);
 		assertEquals(room3.getEarliestMoveInDateFirstSummerResidents(), date1);
 		assertEquals(room3.getLatestMoveOutDateFirstSummerResidents(), date7);
-		
+
 		try {
 			room3.addFirstSummerResident(person4);
 			fail("Should not have been allowed to add third person");
 		} catch (Exception e) {
 			// do nothing: expected
 		}
-		
+
 		room3.removeFirstSummerResident(person1);
 		assertEquals(room3.getEarliestMoveInDateFirstSummerResidents(), date1);
 		assertEquals(room3.getLatestMoveOutDateFirstSummerResidents(), date6);
-		
+
 		try {
 			room3.addFirstSummerResident(person3);
 			fail("Should not have been able to add a resident without First Summer dates");
 		} catch (Exception e) {
 			// do nothing: expected
 		}
-		
+
 		room3.addFirstSummerResident(person4);
 		assertEquals(room3.getEarliestMoveInDateFirstSummerResidents(), date1);
 		assertEquals(room3.getLatestMoveOutDateFirstSummerResidents(), date6);
-		
+
 		ArrayList<Person> expectedFirstSummerResidents = new ArrayList<>();
 		expectedFirstSummerResidents.add(person2);
 		expectedFirstSummerResidents.add(person4);
-		
+
 		Collections.sort(expectedFirstSummerResidents);
-		
+
 		ArrayList<Person> actualFirstSummerResidents = room3.getFirstSummerResidents();
 		Collections.sort(actualFirstSummerResidents);
-		
+
 		assertEquals(expectedFirstSummerResidents, actualFirstSummerResidents);
-		
+
 		// check roommates
 		assertTrue(person1.getFirstRoommates().isEmpty());
 		assertEquals(person2.getFirstRoommates(), new ArrayList<Person>().add(person4));
-		assertTrue(person3.getFirstRoommates().isEmpty());	
+		assertTrue(person3.getFirstRoommates().isEmpty());
 		assertEquals(person4.getFirstRoommates(), new ArrayList<Person>().add(person2));
 	}
 
 	@Test
 	public void addAndRemoveSecondSummerResidentTest() {
 		// check move in and move out dates
+		assertFalse(room4.getEarliestMoveInDateSecondSummerResidents().isPresent());
 
-		// TODO: check roommates
+		room4.addSecondSummerResident(person4);
+		assertEquals(room4.getEarliestMoveInDateSecondSummerResidents(), date5);
+		assertEquals(room4.getLatestMoveOutDateSecondSummerResidents(), date6);
+
+		room4.addSecondSummerResident(person5);
+		assertEquals(room4.getEarliestMoveInDateSecondSummerResidents(), date5);
+		assertEquals(room4.getLatestMoveOutDateSecondSummerResidents(), date7);
+
+		try {
+			room4.addSecondSummerResident(person6);
+			fail("Should not have been allowed to add third person");
+		} catch (Exception e) {
+			// do nothing: expected
+		}
+
+		room4.removeSecondSummerResident(person4);
+		assertEquals(room4.getEarliestMoveInDateSecondSummerResidents(), date5);
+		assertEquals(room4.getLatestMoveOutDateSecondSummerResidents(), date7);
+
+		try {
+			room4.addSecondSummerResident(person3);
+			fail("Should not have been able to add a resident without Second Summer dates");
+		} catch (Exception e) {
+			// do nothing: expected
+		}
+
+		room4.addSecondSummerResident(person6);
+		assertEquals(room4.getEarliestMoveInDateSecondSummerResidents(), date4);
+		assertEquals(room4.getLatestMoveOutDateSecondSummerResidents(), date7);
+
+		ArrayList<Person> expectedSecondSummerResidents = new ArrayList<>();
+		expectedSecondSummerResidents.add(person5);
+		expectedSecondSummerResidents.add(person6);
+
+		Collections.sort(expectedSecondSummerResidents);
+
+		ArrayList<Person> actualSecondSummerResidents = room4.getSecondSummerResidents();
+		Collections.sort(actualSecondSummerResidents);
+
+		assertEquals(expectedSecondSummerResidents, actualSecondSummerResidents);
+
+		// check roommates
+		assertTrue(person3.getSecondRoommates().isEmpty());
+		assertEquals(person5.getSecondRoommates(), new ArrayList<Person>().add(person6));
+		assertTrue(person4.getSecondRoommates().isEmpty());
+		assertEquals(person6.getSecondRoommates(), new ArrayList<Person>().add(person5));
 	}
 }

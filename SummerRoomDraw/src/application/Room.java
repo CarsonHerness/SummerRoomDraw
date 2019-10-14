@@ -167,7 +167,7 @@ public class Room {
 	}
 	
 	public void removeFirstSummerResident(Person person) {
-		// TODO: implement
+		// TODO: implement: update dates and roommates
 	}
 
 	public ArrayList<Person> getSecondSummerResidents() {
@@ -179,7 +179,7 @@ public class Room {
 		if (secondSummerResidents.size() < maxCapacity) {
 			secondSummerResidents.add(person);
 
-			// TODO: update dates
+			// TODO: update dates and roommates
 		} else {
 			// This is not flexible, so it throws an exception rather than creating a Warning
 			throw new ArrayIndexOutOfBoundsException(
@@ -188,7 +188,7 @@ public class Room {
 	}
 	
 	public void removeSecondSummerResident(Person person) {
-		// TODO: implement
+		// TODO: implement: make sure to update dates and roommates
 	}
 
 	public ArrayList<Person> getFallResidents() {
@@ -200,7 +200,7 @@ public class Room {
 		if (fallResidents.size() < maxCapacity) {
 			fallResidents.add(person);
 
-			// TODO: update dates
+			// TODO: update dates and roommates
 		} else {
 			// This is not flexible, so it throws an exception rather than creating a Warning
 			throw new ArrayIndexOutOfBoundsException(
